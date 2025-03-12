@@ -40,6 +40,12 @@ def message(msg, color, x, y):
     text = font.render(msg, True, color)
     win.blit(text, [x, y])
 
+def greeting(name: str):
+    """Greets the person passed in as a parameter."""
+
+    print(f"Hello, {name}!")
+
+
 # Main function for the game
 def game_loop():
     game_over = False
