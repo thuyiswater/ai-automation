@@ -1,0 +1,16 @@
+version: '3.7'
+services:
+  gitlab:
+    image: 'gitlab/gitlab-ce:latest'
+    hostname: 'gitlab.example.com'
+    ports:
+      - '80:80'
+      - '443:443'
+      - '22:22'
+    volumes:
+      - '$PWD/config:/var/opt/gitlab/config'
+      - '$PWD/logs:/var/opt/gitlab/logs'
+      - '$PWD/data:/var/opt/gitlab/data'
+    restart: always
+    environment:
+      EXTERNAL_URL: 'http://gitlab.example.com'
