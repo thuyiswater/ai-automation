@@ -1,16 +1,27 @@
-version: '3.7'
+version: '3.9'
 services:
-  gitlab:
-    image: 'gitlab/gitlab-ce:latest'
-    hostname: 'gitlab.example.com'
+  jenkins:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    container_name: jenkins
+    restart: always
+    privileged: true
+    user: root
+
+    healthcheck:
+      test: curl -s https://localhost:8080 >/dev/null; if [[ $$? == 52 ]]; then echo 0; else echo 1; fi
+      interval: 1m
+      timeout: 5s
+      retries: 3
+
     ports:
-      - '80:80'
-      - '443:443'
-      - '22:22'
+      - '8080:8080'
+    networks:
+      - default
     volumes:
       - '$PWD/config:/var/opt/gitlab/config'
       - '$PWD/logs:/var/opt/gitlab/logs'
       - '$PWD/data:/var/opt/gitlab/data'
-    restart: always
     environment:
       EXTERNAL_URL: 'http://gitlab.example.com'
